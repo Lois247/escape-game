@@ -77,9 +77,9 @@ for i, lettre in enumerate(lettres):
         text=lettre,
         font=("Old English Text MT", 20),
         command=lambda s=lettre: user_click(s),
-        image=button_images.get(lettre),  # Associer la bonne image
-        compound="top",
+        image=button_images.get(lettre),
         bd=0,
+        compound="top",
         fg="white",
         bg="#8b5a2b",
         activebackground="#a67c52"
@@ -94,12 +94,14 @@ user_input = []
 # Fonction pour commencer la partie
 def debut_de_la_partie():
     global sequence, user_input
+    sequence = []
     user_input = []
     sequence.append(random.choice(lettres))
     show_sequence()
 
 # Fonction pour afficher la séquence
 def show_sequence():
+    global sequence
     display.config(text=" ".join(sequence))
     root.after(2000, lambda: display.config(text=""))
 
@@ -112,10 +114,7 @@ def user_click(lettre):
         root.after(1000, debut_de_la_partie)
     elif not sequence[:len(user_input)] == user_input:
         label.config(text="Perdu ! Réessaye.")
-        sequence = []
-
-# Charger l'image du bouton "Nouvelle séquence"
-nouvelle_image_path = os.path.join(chemin_images, "nouvelle.png")
+        user_input = []
 
 # Charger l'image du bouton "Nouvelle séquence"
 nouvelle_image_path = os.path.join(chemin_images, "nouvelle.png")
@@ -140,7 +139,7 @@ if img_nouvelle_tk:
     start_button = tk.Button(
         root,
         text="Nouvelle séquence",
-        command=lambda: print("Début de la partie"),  # Remplacez par la fonction de début de partie
+        command=debut_de_la_partie,
         font=("Old English Text MT", 20),
         bd=0,
         fg="white",
