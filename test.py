@@ -3,40 +3,6 @@ import os
 import random
 from PIL import Image, ImageTk
 
-# Initialisation de la fenêtre
-root = tk.Tk()
-root.title("Jeu de Séquence Médiéval")
-
-# Taille de la fenêtre (correspond à l'image de fond)
-IMAGE_WIDTH = 1080
-IMAGE_HEIGHT = 808
-root.geometry(f"{IMAGE_WIDTH}x{IMAGE_HEIGHT}")
-
-# Charger l'image de fond
-base_dir = os.path.dirname(os.path.abspath(__file__))
-chemin_images = os.path.join(base_dir, "images")
-background_image_path = os.path.join(chemin_images, "fond_medieval.jpg")
-
-if os.path.exists(background_image_path):
-    bg_img = Image.open(background_image_path)
-    bg_img = bg_img.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
-    bg_img_tk = ImageTk.PhotoImage(bg_img)
-
-    # Création du canvas pour l'image de fond
-    canvas = tk.Canvas(root, width=IMAGE_WIDTH, height=IMAGE_HEIGHT, highlightthickness=0)
-    canvas.pack(fill="both", expand=True)
-    canvas.create_image(0, 0, anchor="nw", image=bg_img_tk)
-else:
-    print("❌ Image de fond introuvable !")
-
-# Label de texte
-label = tk.Label(root, text="Reproduis la séquence", font=("Old English Text MT", 18), fg="white", bg="#4B2E1D")
-label.place(x=410, y=100)
-
-# Affichage de la séquence
-display = tk.Label(root, text="", font=("Old English Text MT", 80), fg="white", bg="#4B2E1D")
-display.place(x=495, y=150)
-
 # Lettres du jeu
 lettres = ['𝖊', '𝖘', '𝖈', '𝖆', '𝖕', '𝖊']
 
@@ -76,6 +42,40 @@ lettre_mapping = {
     '𝖆': 'a',
     '𝖕': 'p',
 }
+
+# Initialisation de la fenêtre
+root = tk.Tk()
+root.title("Jeu de Séquence Médiéval")
+
+# Taille de la fenêtre (correspond à l'image de fond)
+IMAGE_WIDTH = 1080
+IMAGE_HEIGHT = 808
+root.geometry(f"{IMAGE_WIDTH}x{IMAGE_HEIGHT}")
+
+# Charger l'image de fond
+base_dir = os.path.dirname(os.path.abspath(__file__))
+chemin_images = os.path.join(base_dir, "images")
+background_image_path = os.path.join(chemin_images, "fond_medieval.jpg")
+
+if os.path.exists(background_image_path):
+    bg_img = Image.open(background_image_path)
+    bg_img = bg_img.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
+    bg_img_tk = ImageTk.PhotoImage(bg_img)
+
+    # Création du canvas pour l'image de fond
+    canvas = tk.Canvas(root, width=IMAGE_WIDTH, height=IMAGE_HEIGHT, highlightthickness=0)
+    canvas.pack(fill="both", expand=True)
+    canvas.create_image(0, 0, anchor="nw", image=bg_img_tk)
+else:
+    print("❌ Image de fond introuvable !")
+
+# Label de texte
+label = tk.Label(root, text="Reproduis la séquence", font=("Old English Text MT", 18), fg="white", bg="#4B2E1D")
+label.place(x=410, y=100)
+
+# Affichage de la séquence
+display = tk.Label(root, text="", font=("Old English Text MT", 80), fg="white", bg="#4B2E1D")
+display.place(x=495, y=150)
 
 # Dictionnaire pour stocker les images des boutons
 button_images = {}
