@@ -1,0 +1,100 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Apr  1 11:43:01 2025
+
+@author: amine
+"""
+import tkinter as tk
+import json
+import random
+
+SAVE_FILE = "pile_ou_face_save.json"
+
+def charger_progression():
+    
+    try:
+        with open(SAVE_FILE, "r") as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"pv": 10, "score": 0, "multiplicateur": 1, "parties_jouees": 0} 
+
+def sauvegarder_progression(data):
+    """Sauvegarde la progression du joueur dans un fichier JSON."""
+    with open(SAVE_FILE, "w") as file:
+        json.dump(data, file, indent=4)
+
+def reinitialiser_jeu():
+    """Réinitialise la progression du joueur pour une nouvelle partie."""
+    return {"pv": 10, "score": 0, "multiplicateur": 1, "parties_jouees": 0}
+
+def pile_ou_face():
+    """Mini-jeu de Pile ou Face avec mises, multiplicateur et gestion du score."""
+    data = charger_progression()
+    
+    data.setdefault("pv", 10)
+    data.setdefault("score", 0)
+    data.setdefault("multiplicateur", 1)
+    data.setdefault("parties_jouees", 0)
+    
+    while True:
+        victoires_consecutives = 0  
+        
+        while data["pv"] > 0:
+            print("\n--- Mini-jeu : Pile ou Face ---")
+            print(f"Multiplicateur actuel : x{data['multiplicateur']} | Score : {data['score']} | PV : {data['pv']} | Parties jouées : {data['parties_jouees']}")
+            
+            choix = input("Voulez-vous jouer ? (Entrer pour continuer, Q pour quitter) : ").strip().upper()
+            if choix == "Q":
+                print("\n Merci d'avoir joué ! Votre progression est sauvegardée.")
+                sauvegarder_progression(data)
+                return
+
+            
+            while True:
+                try:
+                    mise = int(input(f"Combien voulez-vous miser ? (Max {data['pv']}) : "))
+                    if 1 <= mise <= data['pv']:
+                        break
+                    else:
+                        print("\n❌ Mise invalide. Choisissez une valeur entre 1 et votre nombre de PV.")
+                except ValueError:
+                    print("\n❌ Entrez un nombre valide.")
+            
+            choix_joueur = input("Choisissez Pile (P) ou Face (F) : ").strip().upper()
+            if choix_joueur not in ["P", "F"]:
+                print("\n❌ Choix invalide. Réessayez.")
+                continue
+            
+          
+            
+         
+                data["score"] += mise * data["multiplicateur"]
+                victoires_consecutives += 1
+                print("\n Bravo ! Vous avez gagné votre mise !")
+                if victoires_consecutives == 3:
+                    print("\n Félicitations ! Vous avez gagné 3 parties d'affilée ! Fin du jeu. ")
+                    break
+            else:
+                data["pv"] -= mise
+                victoires_consecutives = 0  #
+                print("\n Dommage, vous avez perdu votre mise...")
+            
+            
+            data["parties_jouees"] += 1
+            
+           
+            sauvegarder_progression(data)
+        
+        print("\n Vous n'avez plus de PV ! Game Over ")
+        sauvegarder_progression(data)
+        
+       
+        rejouer = input("Voulez-vous recommencer une partie ? (O/N) : ").strip().upper()
+        if rejouer == "O":
+            data = reinitialiser_jeu()
+            sauvegarder_progression(data)
+        else:
+            print("\n Merci d'avoir joué ! À bientôt !")
+            return
+
+pile_ou_face()
