@@ -1,9 +1,10 @@
 import random
 import time
+import tkinter as tk
 
 x = 2
 
-lettres = ['e', 's', 'c', 'a', 'p']
+lettres = ['E', 'S', 'C', 'A', 'P']
 
 sequence = []
 user_input = []
@@ -29,6 +30,7 @@ def choix(lettre):
     elif not sequence[:len(user_input)] == user_input:
         print("Perdu ! La séquence était : " + " ".join(sequence))
         sequence.clear()
+        print("Tapez 'reset' pour recommencer ou 'quit' pour quitter.")
 
 def reset_game():
     global sequence, user_input
@@ -46,7 +48,7 @@ if str(x) == "2":
 
     while True:
         # Demande à l'utilisateur d'entrer une lettre
-        entree = input("Votre choix (ou 'reset'/'quit') : ").strip().upper()
+        entree = input("Votre choix (lettre ou 'reset'/'quit') : ").strip().upper()
 
         if entree == "QUIT":
             print("Merci d'avoir joué ! À bientôt.")
