@@ -1,6 +1,7 @@
 from tkinter import messagebox
 from PIL import Image, ImageTk
-
+import tkinter as tk
+import random
 
 # === Liste des énigmes et leurs réponses ===
 toutes_les_enigmes = {
