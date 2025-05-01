@@ -1,6 +1,5 @@
-import tkinter as tk
+
 import json
-import random
 
 SAVE_FILE = "pile_ou_face_save.json"
 
