@@ -17,14 +17,14 @@ def debut_de_la_partie():
 
 def show_sequence():
     titre.config(text="Séquence : " + " ".join(sequence))
-    root.after(2000, lambda: titre.config(text="Reproduis la séquence..."))
+    root.after(1500, lambda: titre.config(text="Reproduis la séquence..."))
 
-def choix(lettre):
+def choix(lettres):
     global sequence, user_input, perdu
     if perdu:  # Si on a perdu, on ne fait rien.
         return
 
-    user_input.append(lettre)
+    user_input.append(lettres)
     if user_input == sequence:
         titre.config(text="Bravo ! Nouvelle séquence...")
         root.after(1000, debut_de_la_partie)
