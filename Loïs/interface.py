@@ -17,20 +17,20 @@ def debut_de_la_partie():
     show_sequence()
 
 def show_sequence():
-    if perdu:  # n'afficher la séquence si le joueur a perdu
+    if perdu or gagne:  # n'afficher la séquence si le joueur a perdu ou gagné
         return
     titre.config(text="Séquence : " + " ".join(sequence))
     root.after(1500, lambda: titre.config(text="Reproduis la séquence..."))
 
 def choix(lettre):
     global sequence, user_input, perdu, gagne
-    if perdu or gagne:  # ne permet pzs de choix si le jeu est terminé
+    if perdu or gagne:  # ne permet pas de choix si le jeu est terminé
         return
     user_input.append(lettre)
     if user_input == sequence:
         if len(sequence) == 5:
-            titre.config(text="Bravo ! Tu as gagné le jeu ! 🎉")
             background_label.config(image=bg_win)
+            titre.config(text="Bravo ! Tu as gagné le jeu")
             gagne = True
             cacher_boutons()
             afficher_boutons()  # Réaffiche les boutons Reset et Quitter
@@ -61,8 +61,8 @@ def reset_game():
     debut_de_la_partie()
 
 def afficher_boutons():
-    largeur_bouton = 60
-    espacement = 20
+    largeur_bouton = 100
+    espacement = 60
     total_width = len(lettres) * largeur_bouton + (len(lettres) - 1) * espacement
     x_start = (root.winfo_width() - total_width) // 2
     y_pos = 400
@@ -75,8 +75,8 @@ def afficher_boutons():
     # centrer les boutons Reset et Quitter en dessous
     total_buttons_width = 2 * 80 + 20  # largeur boutons + espacement
     x_start_buttons = (root.winfo_width() - total_buttons_width) // 2
-    btn_reset.place(x=x_start_buttons, y=500)
-    btn_quit.place(x=x_start_buttons + 100, y=500)
+    btn_reset.place(x=x_start_buttons, y=550)
+    btn_quit.place(x=x_start_buttons + 100, y=550)
 
 # créer la fenêtre
 root = tk.Tk()
@@ -93,18 +93,18 @@ background_label = tk.Label(root, image=bg_normal)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # titre
-titre = tk.Label(root, text="Bienvenue dans le jeu de séquence !", font=("Georgia", 20), bg="white")
+titre = tk.Label(root, text="Bienvenue dans le jeu de séquence !", font=("Old English Text MT", 20), bg="#4e4b3e", fg="#e2d1b3", relief="raised", bd=10,  highlightbackground="#d4af37", highlightcolor="#f2d45f")
 titre.place(relx=0.5, y=30, anchor="n")
 
 # boutons lettres
 boutons_lettres = []
 for lettre in lettres:
-    btn = tk.Button(root, text=lettre, width=4, height=2, font=("Georgia", 16), command=lambda l=lettre: choix(l))
+    btn = tk.Button(root, text=lettre,font=("Old English Text MT", 30), bg="#4e4b3e", fg="#e2d1b3", relief="raised", bd=10,  highlightbackground="#d4af37", highlightcolor="#f2d45f", command=lambda l=lettre: choix(l))
     boutons_lettres.append(btn)
 
 # boutons Reset et Quitter
-btn_reset = tk.Button(root, text="Reset", font=("Georgia", 12), command=reset_game)
-btn_quit = tk.Button(root, text="Quitter", font=("Georgia", 12), command=root.quit)
+btn_reset = tk.Button(root, text="Reset", font=("Old English Text MT", 15), bg="#4e4b3e", fg="#e2d1b3", relief="raised", bd=10,  highlightbackground="#d4af37", highlightcolor="#f2d45f", command=reset_game)
+btn_quit = tk.Button(root, text="Quitter", font=("Old English Text MT", 15), bg="#4e4b3e", fg="#e2d1b3", relief="raised", bd=10,  highlightbackground="#d4af37", highlightcolor="#f2d45f", command=root.quit)
 
 # afficher les boutons après que la fenêtre soit prête
 root.update_idletasks()
