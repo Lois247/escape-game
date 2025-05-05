@@ -6,7 +6,7 @@ import os
 import sys
 
 # === Chemins relatifs ===
-chemin_background = "background.png"
+chemin_background = "background1.png"
 chemin_lancer_piece = "lancer_piece.png"
 chemin_pile = "PILE.png"
 chemin_face = "FACE.png"

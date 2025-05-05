@@ -1,8 +1,10 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import random
+import json
+import os
 
-#Données des énigmes
+# === Données des énigmes ===
 toutes_les_enigmes = {
     "Je suis toujours devant toi mais jamais derrière. Qui suis-je ?":
     {"Le passé": False, "L’avenir": True, "L’ombre": False},
@@ -17,7 +19,8 @@ toutes_les_enigmes = {
     "Je n’ai qu’un œil mais je ne vois pas. Que suis-je ?":
     {"Une aiguille": True, "Un cyclone": False, "Un pirate": False}
 }
-#Variables du jeu des énigmes
+
+# === Variables du jeu ===
 nb_question = 0
 liste_enigmes = []
 reponses_courantes = []
@@ -164,6 +167,7 @@ def lancer_jeu_sequence():
                 gagne = True
                 cacher_boutons()
                 afficher_boutons()
+                root.after(2000, lancer_jeu_pile_ou_face)  # Transition vers le jeu Pile ou Face
             else:
                 titre.config(text="Bravo ! Nouvelle séquence...")
                 jeu.after(1000, debut_partie)
@@ -196,25 +200,39 @@ def lancer_jeu_sequence():
                         bd=10, command=lambda l=lettre: choix(l))
         boutons_lettres.append(btn)
 
-    btn_reset = tk.Button(jeu, text="Reset", font=("Old English Text MT", 15), bg="#4e4b3e", fg="#e2d1b3",
-                          bd=10, command=reset)
-    btn_quit = tk.Button(jeu, text="Quitter", font=("Old English Text MT", 15), bg="#4e4b3e", fg="#e2d1b3",
-                         bd=10, command=jeu.destroy)
-
-    jeu.update_idletasks()
+    btn_reset = tk.Button(jeu, text="Reset", font=("Old English Text MT", 20), bg="#4e4b3e", fg="#e2d1b3", bd=10, command=reset)
+    btn_quit = tk.Button(jeu, text="Quitter", font=("Old English Text MT", 20), bg="#e2d1b3", fg="#4e4b3e", bd=10, command=jeu.destroy)
     afficher_boutons()
     debut_partie()
 
-#Lancement du premier jeu
+# === Jeu de Pile ou Face (version corrigée) ===
+def lancer_jeu_pile_ou_face():
+    def choix(choix_utilisateur):
+        face_ou_pile = random.choice(["Pile", "Face"])
+        if choix_utilisateur == face_ou_pile:
+            message.config(text=f"Bravo ! C'était {face_ou_pile}. Vous avez gagné !", fg="green")
+        else:
+            message.config(text=f"Dommage ! C'était {face_ou_pile}. Vous avez perdu !", fg="red")
+
+    jeu_pile_ou_face = tk.Toplevel()
+    jeu_pile_ou_face.geometry("500x300")
+    jeu_pile_ou_face.title("Pile ou Face")
+
+    message = tk.Label(jeu_pile_ou_face, text="Choisissez Pile ou Face", font=("Helvetica", 18), bg="lightblue")
+    message.pack(pady=30)
+
+    bouton_pile = tk.Button(jeu_pile_ou_face, text="Pile", font=("Helvetica", 14), command=lambda: choix("Pile"))
+    bouton_pile.pack(side="left", padx=50)
+
+    bouton_face = tk.Button(jeu_pile_ou_face, text="Face", font=("Helvetica", 14), command=lambda: choix("Face"))
+    bouton_face.pack(side="right", padx=50)
+
+# === Fenêtre principale ===
 root = tk.Tk()
 root.geometry("800x500")
-root.title("Jeu des Énigmes")
+root.title("Jeu d'énigmes et de séquences")
+
 boutons = []
 lancer_interface()
+
 root.mainloop()
-
-
-
-
-
-
