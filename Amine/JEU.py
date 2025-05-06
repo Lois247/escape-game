@@ -135,8 +135,9 @@ def lancer_piece():
     dialogue_label.config(text="Suspens...")
 
     if resultat_prevu:
-        fenetre.after(2000, lambda: afficher_resultat(resultat_prevu))
+        temp_resultat = resultat_prevu
         resultat_prevu = None
+        fenetre.after(2000, lambda: afficher_resultat(temp_resultat))
     else:
         fenetre.after(2000, afficher_resultat)
 
@@ -194,11 +195,6 @@ def reset_partie():
     }
     sauvegarder_partie(etat_partie)
 
-def effacer_resultat():
-    resultat_label.config(text="")
-    resultat_image_label.place_forget()
-    dialogue_label.config(text="")
-
 # === Boutons ===
 Button(fenetre, text="Lancer la pièce", font=("Tiffany", 18),
        command=lancer_piece, bg="black", fg="white").place(x=320, y=520)
@@ -208,9 +204,6 @@ Button(fenetre, text="Pouvoir : Voir à l'avance", font=("Tiffany", 12),
 
 Button(fenetre, text="Pouvoir : Rejouer", font=("Tiffany", 12),
        command=utiliser_rejouer, bg="black", fg="orange").place(x=220, y=20)
-
-Button(fenetre, text="Effacer le résultat", font=("Tiffany", 12),
-       command=effacer_resultat, bg="black", fg="white").place(x=600, y=20)
 
 # === Lancement ===
 fenetre.mainloop()
